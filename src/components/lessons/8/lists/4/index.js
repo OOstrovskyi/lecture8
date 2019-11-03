@@ -2,8 +2,12 @@ import React from 'react';
 
 function Users({ users, online }) {
   const status = online ? 'Online' : 'Offline';
-  const usersToRender = null; // change code here
-  const usersItems = null; // change code here
+
+  
+  const usersToRender = users.filter(user => user.online); // change code here
+  
+  const usersItems = usersToRender.map((el, index) => <li key={index}>{el.username}</li>); // change code here
+  
   return (
     <div>
       <h1>Current {status} Users:</h1>

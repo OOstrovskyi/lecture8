@@ -1,4 +1,5 @@
 import React from 'react';
+import Index from '../../../../layout';
 
 const friends = [
   'Mikenzi',
@@ -8,11 +9,11 @@ const friends = [
   'Doug'
 ];
 
-const List = () => {
+const List = (props) => {
   // Render a list using the "friends" being passed in.
   return (
     <ul>
-
+      {props.friends.map((el, index) => <li key={index}>{el}</li>)}
     </ul>
   );
 };

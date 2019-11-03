@@ -6,20 +6,20 @@ class WindowSize extends React.Component {
     super(props);
     this.state = {height: '', width: ''};
     { /* change code below this line */ }
-
+    this.onResize = this.onResize.bind(this);
     { /* change code above this line */ }
   }
 
   componentDidMount() {
     this.storeWindowSize(this.getWindowSize());
     /* change code below this line */
-
+    window.addEventListener("resize", this.onResize);
     /* change code above this line */
   }
 
   componentWillUnmount() {
     /* change code below this line */
-
+    window.removeEventListener("resize", this.onResize);
     /* change code above this line */
   }
 

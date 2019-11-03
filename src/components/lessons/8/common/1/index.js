@@ -29,13 +29,14 @@ class Search extends React.Component {
     };
   }
 
-  onSearchChange(event) {
-    const value = '';// your code is here
+  onSearchChange = (event) => {
+    const value = event.target.value;// your code is here
     this.setState({ searchTerm: value });
   }
 
-  onDismiss(e) {
-    const itemId = '';// your code is here
+  onDismiss = (id, e) => {
+    //e.preventDefault();
+    const itemId = id;// your code is here
     const updatedList = this.state.list.filter(item => item.id !== itemId);
     this.setState({ list: updatedList });
   }
@@ -53,15 +54,15 @@ class Search extends React.Component {
           {this.state.list.filter(isSearched(this.state.searchTerm)).map(item => {
             const { id, url, title, author } = item;
             return (
-              <li className="list-item" >
+              <li key={id} className="list-item" >
                 <span>
                   <a href={url}>{title}</a> -
                   {` ${author}`}
                 </span>
                 <button
-                  onClick={this.onDismiss}
+                  onClick={this.onDismiss.bind(null, id)}
                   type="button"
-                  data-id={id}
+                  id={id}
                 >
                   Dismiss
                 </button>

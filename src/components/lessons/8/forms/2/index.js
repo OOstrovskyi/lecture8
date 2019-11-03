@@ -15,11 +15,13 @@ class ControlledForm extends React.Component {
     this.setState({
       input: event.target.value
     });
+    this.setState({submit : false});
   }
 
   handleSubmit(event) {
     // change code below this line
-
+    this.setState({submit : true});
+    event.preventDefault();
     // change code above this line
   }
 
@@ -28,12 +30,12 @@ class ControlledForm extends React.Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           { /* change code below this line */ }
-
+          <input type="text" value={this.state.input} onChange={this.handleChange} />
           { /* change code above this line */ }
           <button type='submit'>Submit!</button>
         </form>
         { /* change code below this line */ }
-
+          <h1>{this.state.submit && this.state.input}</h1>
         { /* change code above this line */ }
       </div>
     );

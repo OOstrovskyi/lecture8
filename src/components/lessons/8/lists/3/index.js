@@ -1,14 +1,7 @@
 import React from 'react';
 
-function ListItem({ data: { name, age } }) {
-  return (
-    <li>
-      {`${name}, ${age} years old`}
-    </li>
-  );
-}
 function FriendsList({ friends }) {
-  const listItems = friends.map((friend) => <ListItem data={friend} />);
+  const listItems = friends.map((friend) => <li key={friend.age}>{friend.name}, {friend.age} years old</li>);
   return (
     <div>
       <h3>Correct Key Usage</h3>
@@ -16,6 +9,8 @@ function FriendsList({ friends }) {
     </div>
   );
 }
+
+
 const friends = [
   {name: 'Peter', age: 25},
   {name: 'Sachin', age: 33},
