@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const buttons = [
   'first',
@@ -8,17 +9,27 @@ const buttons = [
 ];
 
 class Index extends React.Component {
-  state = {activeButtonName: ''}
-
-  clickHandler = (name) => {
+  constructor(props){
+    super(props);
+    this.state = {
+      activeButtonName: '',
+      activeButtonId: 0,
+    }
+  }
+  
+  //здесь мы устанавливаем состояния
+  clickHandler = (name, index) => {
     this.setState({activeButtonName: name});
+    this.setState({activeButtonId: index});
   }
 
   render() {
-    const { activeButtonName } = this.state;
+    const {activeButtonName, activeButtonId } = this.state;
     return (
       <div>
-        {buttons.map((i, index) => (<Button clickHandler={this.clickHandler} key={index} name={i} />))}
+        {buttons.map((i, index) => 
+          (<Button clickHandler={this.clickHandler.bind(this, i, index)} key={index} name={i} active={index===activeButtonId ? true : false} />))
+        }
         <Details name={activeButtonName}/>
       </div>
     );
@@ -26,19 +37,13 @@ class Index extends React.Component {
 }
 
 class Button extends React.Component {
-  state = {active: false}
-
-  clickHandler = () => {
-    this.setState(({ active }) => ({active: !active}));
-    this.props.clickHandler(this.props.name);
-  }
 
   render() {
-    const { name } = this.props;
-    const { active } = this.state;
+    const { clickHandler, name, active } = this.props;
+    
     return (
       <button
-        onClick={this.clickHandler}
+        onClick={clickHandler}
         style={{color: active ? 'red': 'blue'}}
       >
         {name}
@@ -51,9 +56,14 @@ function Details({ name }) {
   return <div>{name}</div>;
 }
 
-
 const Task = () => {
   return <Index/>;
 };
+
+Button.propTypes = {
+  clickHandler: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired
+}
 
 export default Task;
