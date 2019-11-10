@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import data from './data.json';
 
 const PersonalInfo = ({ data }) => (
@@ -43,3 +44,33 @@ const Task = () => {
 };
 
 export default Task;
+
+PersonalInfo.propTypes = {
+  data: PropTypes.exact({
+      _id: PropTypes.string.isRequired,
+      guid: PropTypes.string,
+      isActive: PropTypes.bool,
+      balance: PropTypes.string,
+      age: PropTypes.number,
+      name: PropTypes.shape({
+        first: PropTypes.string.isRequired,
+        last: PropTypes.string.isRequired,
+        patronymic: PropTypes.string
+      }),
+      company: PropTypes.string,
+      email: PropTypes.string,
+      latitude: PropTypes.string,
+      longitude: PropTypes.string,
+      tags: PropTypes.arrayOf(PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ]).isRequired),
+      range: PropTypes.arrayOf(PropTypes.number),
+      friends: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired
+      })),
+
+    }
+  ).isRequired
+}

@@ -40,24 +40,39 @@ const refreshData = count => {
 const list = refreshData(MIN_COUNT);
 
 function Task() {
+
   const { url } = useRouteMatch();
 
   const listPath = `${url}/list`;
 
   const match = useRouteMatch(listPath);
 
+  const [archivedItems, setArchivedItems] = React.useState([]);
+
+  const handleArchive = (id) => {
+    setArchivedItems((archivedItems) => [...archivedItems, id]);
+  };
+
+  const handleReset = () => {
+    setArchivedItems((archivedItems) => []);
+  };
+
+  const byArchived = (archivedItems) => (item) => !archivedItems.includes(item.id);
+
+  const sorted = list.filter(byArchived(archivedItems));
+
   return (
     <div className="task">
       <Header>
-        {!match && <Link to={listPath} >list</Link>}
+        {!match && <Link to={listPath}>list</Link>}
         <Switch>
-          <Route path={listPath} exact >
-            <Link to={url} >back to task page</Link>
-            <List list={list} />
+          <Route path={listPath} exact>
+            <Link to={url}>back to task page</Link>
+            <List list={sorted} archive={handleArchive} reset={handleReset} archived={archivedItems} />
           </Route>
         </Switch>
-        <br/>
-        <Label>{list.length} items</Label>
+        <br />
+        <Label>{list.length - archivedItems.length} items</Label>
       </Header>
     </div>
   );

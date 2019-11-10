@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Row = styled.li`
@@ -37,39 +38,46 @@ const ArchivedLabel = styled(Label)`
   font-size: 12px;
 `;
 
-const byArchived = archivedItems => item => !archivedItems.includes(item.id);
-
-const List = ({ className, list }) => {
-  const [archivedItems, setArchivedItems] = React.useState([]);
-
-  const handleArchive = id => {
-    setArchivedItems(archivedItems => [...archivedItems, id]);
-  };
-
+function List(props) {
+  const { list, className, archive, reset, archived } = props;
   return (
-    <React.Fragment>
+    <>
       <Container className={className}>
-        {list.filter(byArchived(archivedItems)).map(item => (
+        {list.map((item) => (
           <Row key={item.id}>
             <Label>{item.name}</Label>
-            <Button type="button" onClick={() => handleArchive(item.id)}>
+            <Button type="button" onClick={() => archive(item.id)}>
               Archive
             </Button>
           </Row>
         ))}
       </Container>
       <ArchivedLabel>
-        {archivedItems.length} item{archivedItems.length === 1 ? "" : "s"}{" "}
+        {archived.length} item{archived.length === 1 ? '' : 's'}{' '}
         archived...
       </ArchivedLabel>
-      {archivedItems.length > 0 && (
-        <ResetButton onClick={() => setArchivedItems([])}>
-          Reset Archived
-        </ResetButton>
-      )}
-    </React.Fragment>
+      <ResetButton onClick={() => reset()}>
+        Reset Archive
+      </ResetButton>
+    </>
   );
-};
+}
+
+List.propTypes = {
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+      }
+    )
+  ).isRequired,
+  className: PropTypes.string,
+  archive: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  archived: PropTypes.arrayOf(
+    PropTypes.number
+  ).isRequired
+}
 
 export { List };
 export default List;

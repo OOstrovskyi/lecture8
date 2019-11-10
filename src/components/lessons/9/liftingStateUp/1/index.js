@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 class VoteComponent extends React.PureComponent {
   constructor(props) {
@@ -22,23 +22,16 @@ class VoteComponent extends React.PureComponent {
     }
   }
 
-  increase = () => {
-    this.setState(({ votesNumber }) => ({votesNumber: votesNumber + 1}));
-  }
-
-  decrease = () => {
-    this.setState(({ votesNumber }) => ({votesNumber: votesNumber - 1}));
-  }
 
   render() {
     console.log('VoteComponent render');
-    const { resolution, terminalNumber } = this.props;
+    const { resolution, increase, decrease, terminalNumber } = this.props;
     return (
       <div style={this.style} >
         <h6>Terminal number: {terminalNumber}</h6>
         <h3>Resolution: "{resolution}"</h3>
-        <button onClick={this.decrease}>No</button>
-        <button onClick={this.increase}>Yes</button>
+        <button onClick={decrease}>No</button>
+        <button onClick={increase}>Yes</button>
       </div>
     );
   }
@@ -66,15 +59,23 @@ class VotingSystem extends React.Component {
     this.setState({votesNumber});
   }
 
+  increase = () => {
+    this.setState(({ votesNumber }) => ({votesNumber: votesNumber + 1}));
+  }
+
+  decrease = () => {
+    this.setState(({ votesNumber }) => ({votesNumber: votesNumber - 1}));
+  }
+
   render() {
     const { resolution } = this.props;
     const { votesNumber } = this.state;
     return (
       <React.Fragment>
         <VotingDisplay resolution={resolution} result={votesNumber} />
-        <VoteComponent resolution={resolution} onVote={this.onVote} terminalNumber={1} />
-        <VoteComponent resolution={resolution} onVote={this.onVote} terminalNumber={2} />
-        <VoteComponent resolution={resolution} onVote={this.onVote} terminalNumber={3} />
+        <VoteComponent resolution={resolution} increase={this.increase.bind(this)} decrease={this.decrease.bind(this)} onVote={this.onVote} terminalNumber={1} />
+        <VoteComponent resolution={resolution} increase={this.increase.bind(this)} decrease={this.decrease.bind(this)} onVote={this.onVote} terminalNumber={2} />
+        <VoteComponent resolution={resolution} increase={this.increase.bind(this)} decrease={this.decrease.bind(this)} onVote={this.onVote} terminalNumber={3} />
       </React.Fragment>
     );
   }
@@ -91,3 +92,16 @@ const Task = () => {
 };
 
 export default Task;
+
+VotingSystem.propTypes = {
+  resolution: PropTypes.string.isRequired
+}
+
+VotingDisplay.propTypes = {
+  resolution: PropTypes.string.isRequired,
+  result: PropTypes.number.isRequired
+}
+
+VoteComponent.propTypes = {
+  resolution: PropTypes.string.isRequired,
+}

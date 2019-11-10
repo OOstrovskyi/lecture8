@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import blogPosts from './blogPosts.json';
 
 const Author = ({ username, name }) => (
@@ -45,3 +46,40 @@ const Task = () => {
 };
 
 export default Task;
+
+Author.propTypes = {
+  username: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
+}
+
+Comment.propTypes = {
+  comment: PropTypes.string.isRequired,
+  author: PropTypes.exact({
+    username: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  })
+}
+
+Comments.propTypes = {
+  i: PropTypes.arrayOf({
+    comment: PropTypes.string.isRequired,
+    author: PropTypes.exact({
+      username: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  })
+}
+
+BlogPosts.propTypes = {
+  author: PropTypes.arrayOf({
+    username: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  comments: PropTypes.arrayOf({
+    comment: PropTypes.string.isRequired,
+    author: PropTypes.exact({
+      username: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  })
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropsTypes from 'prop-types';
 import './style.css';
 import { ReactComponent as RubyIcon } from './icons/ruby.svg';
 import { ReactComponent as PythonIcon } from './icons/python.svg';
@@ -68,3 +69,14 @@ const Task = () => {
 };
 
 export default Task;
+
+LanguagePicker.propTypes = {
+  selected: PropsTypes.oneOf(['JavaScript', 'Java', 'Ruby', 'PHP', 'Python']).isRequired,
+  onUpdateLanguage: PropsTypes.func.isRequired,
+  languages: PropsTypes.arrayOf(
+    PropsTypes.exact( {
+      name: PropsTypes.string.isRequired,
+      icon: PropsTypes.elementType.isRequired
+    })
+  )
+}

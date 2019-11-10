@@ -23,17 +23,21 @@ const generateData = (count) => {
 const data = generateData(MIN_COUNT);
 
 const Articles = ({ data }) => {
-  return null; //remove this line
+  
   //uncomment and fix the code below
-  /*return (
-    <h1>Articles</h1>
-    <div>
-      {data.map(({ title, body }) => (
-        <h3>{title}</h3>
-        <p>{body}</p>
-      ))}
-    </div>
-  );*/
+  return (
+    <React.Fragment>
+      <h1>Articles</h1>
+      <div>
+        {data.map(({ title, body }) => (
+          <>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </>
+        ))}
+      </div>
+    </React.Fragment>
+  );
 }
 
 const Task = () => {
